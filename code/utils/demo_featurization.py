@@ -1,0 +1,92 @@
+import pandas as pd
+import numpy as np
+import datetime
+import os
+import sys
+import shutil
+import matplotlib.pyplot as plt
+from datetime import datetime, timedelta, date
+
+
+def demo_feature_vector_per_instance(base_file, demo_file, out_file):
+    """
+    base_file: /path/to/file with one hospitalization per row
+    demo_file: /path/to/demographics file with one patient per row
+    out_file: /path/to/output file with one hsopitalization per row along with all important labs codes as ABNORMAL/NORMAL
+    """
+    ## use this as base file
+    df = pd.read_csv(base_file)
+    df_demo = pd.read_csv(demo_file)
+    df_demo = df_demo.drop_duplicates(subset=['PATIENT_DK'])
+    demo_org = ['PATIENT_BIRTH_DATE',  'PATIENT_RACE_NAME', 'PATIENT_ETHNICITY_NAME', 'PATIENT_GENDER_NAME']
+    
+    df = df.merge(df_demo[['PATIENT_DK']+demo_org], on = 'PATIENT_DK', how='left')
+
+    demo = ['PATIENT_AGE_BINNED',  'PATIENT_RACE_NAME', 'PATIENT_ETHNICITY_NAME', 'PATIENT_GENDER_NAME']
+    ## AGE 
+    df['birthDate'] = pd.to_datetime(df['PATIENT_BIRTH_DATE'], errors='coerce').dt.date
+    df['admitDate'] = pd.to_datetime(df['ADMIT_DTM'], errors='coerce').dt.date
+    df['age'] = df['admitDate']-df['birthDate']
+    def to_years(x):
+        return x.days/365.25
+    df['age'] = df.age.apply(to_years)
+
+    def to_bins(x):
+        if np.isnan(x):
+            return -1
+        else:
+            if x<100:
+                return int(x/10)
+            else:
+                return 10
+    df['PATIENT_AGE_BINNED'] = df['age'].apply(to_bins)
+
+    #RACE Preparation
+    races = df.PATIENT_RACE_NAME.unique()
+    df['PATIENT_RACE_NAME'] = df['PATIENT_RACE_NAME'].replace({'Unknown':'UNKNOWN', 'Other': 'UNKNOWN', 
+                                                    'Choose Not to Disclose': 'UNKNOWN',
+                                                    'Unable to Provide': 'UNKNOWN', 
+                                                            ' ': 'UNKNOWN'})
+    for r in races:
+        if type(r) == str and r.startswith('Asian'):
+            df['PATIENT_RACE_NAME'] = df['PATIENT_RACE_NAME'].replace({r:'Asian'})
+
+    for r in races:
+        if type(r) == str and ('black' in r.lower() or 'african' in r .lower()):
+            df['PATIENT_RACE_NAME'] = df['PATIENT_RACE_NAME'].replace({r:'Black'})
+            
+    for r in races:
+        if type(r) == str and ('american indian' in r.lower() or 'alaskan' in r .lower()):
+            df['PATIENT_RACE_NAME'] = df['PATIENT_RACE_NAME'].replace({r:'American Indian/Alaskan Native'})
+
+            
+    for r in races:
+        if type(r) == str and ('hawaii' in r.lower() or 'pacific' in r .lower() or 'samoan' in r.lower() or 'guam' in r.lower()):
+            df['PATIENT_RACE_NAME'] = df['PATIENT_RACE_NAME'].replace({r:'Native Hawaiian/Pacific Islander'})
+
+    df = df.fillna(value={'PATIENT_RACE_NAME':'UNKNOWN'}).copy()
+
+
+    #ETHNIC Preparation
+    races = df.PATIENT_ETHNICITY_NAME.unique()
+    df['PATIENT_ETHNICITY_NAME'] = df['PATIENT_ETHNICITY_NAME'].replace({'Unknown':'UNKNOWN', 'Other': 'UNKNOWN', 
+                                                    'Choose Not to Disclose': 'UNKNOWN',
+                                                    'Unable to Provide': 'UNKNOWN'})
+
+    for r in races:
+        if type(r) == str and ('cuba' in r.lower() or 'mexic' in r.lower() or 'puerto' in r .lower() or 'central americ' in r.lower() or 'south americ' in r.lower() or 'spanish' in r.lower()):
+            df['PATIENT_ETHNICITY_NAME'] = df['PATIENT_ETHNICITY_NAME'].replace({r:'Hispanic or Latino'})
+
+    df = df.fillna(value={'PATIENT_ETHNICITY_NAME':'UNKNOWN'}).copy()  
+
+
+    ## GENDER - already formatted
+    
+    
+    for d in demo:
+        print(d)
+        print(df[d].value_counts())
+    
+    df.to_csv(out_file)
+
+    

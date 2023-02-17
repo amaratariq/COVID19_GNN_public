@@ -38,4 +38,6 @@ The model is designed for a cohort with following characteristics
 - patients admitted to the hospital
 - patients undergoing regular chest x-ray examination (within 3 day intervals) 
 
-The cohort file expects one chest X-ray per row. The model predicts a label for each chest X-ray. Essentially, predictions are made for a patient whenever they undergo a chest X-ray exam, thus building a predicitve trajectory.
+The cohort file expects one chest X-ray per row. Expected columns for data files are provided in sample csv files.
+
+The model predicts a label for each chest X-ray. Essentially, predictions are made for a patient whenever they undergo a chest X-ray exam, thus building a predicitve trajectory.

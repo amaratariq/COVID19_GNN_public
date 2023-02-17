@@ -6,9 +6,9 @@
 Place cohort file in data/raw
 *   cohort_file -- all xrays with corresponding patient and hospitalization details, split (train/test/val) indicator and label (discharge from hsopital/ICU admission/mortality in 3 days of xray date)
 Place data files in data/raw/ehr
-*   demo_file -- person file
-*   cpt_file   -- procedure_occurrence
-*   icd_file -- condition_occurrence
+*   demo_file -- demographics.csv
+*   cpt_file   -- procedures.csv
+*   icd_file -- conditions.csv
 Place xrays as png files with RADIOLOGY_ID from cohort file as file name in data/raw/xray/
 
 
@@ -37,6 +37,10 @@ The model is designed for a cohort with following characteristics
 - patients with positive RT-PCR test for COVID-19
 - patients admitted to the hospital
 - patients undergoing regular chest x-ray examination (within 3 day intervals) 
+
+Labels must be decided on per-X-ray vased by counting number of days between an X-ray and discharge from hospital/admission into ICU/mortality.
+
+code/source/graph_formation.csv lists ICD and CPT subgroups found to be frequenct in our dataset. 
 
 The cohort file expects one chest X-ray per row. Expected columns for data files are provided in sample csv files.
 

@@ -56,7 +56,7 @@ def graph_creation(base_file, enc_demo, sim_threshold = 1, graph_header = 'graph
 
     demo = ['PATIENT_AGE_BINNED',  'PATIENT_RACE_NAME', 'PATIENT_ETHNICITY_NAME', 'PATIENT_GENDER_NAME']
 
-    cpt_list = np.array(['Hematology and Coagulation Procedures', 'Organ or Disease Oriented Panels', 'Drug Assay Procedures', 'Chemistry Procedures',
+    cpt = np.array(['Hematology and Coagulation Procedures', 'Organ or Disease Oriented Panels', 'Drug Assay Procedures', 'Chemistry Procedures',
             'Diagnostic Radiology (Diagnostic Imaging) Procedures', 'Microbiology Procedures', 'Cardiovascular Procedures',
             'Surgical Procedures on the Cardiovascular System', 'Pulmonary Procedures', 'Immunology Procedures',
             'Non-Face-to-Face Evaluation and Management Services', 'Transfusion Medicine Procedures',
@@ -65,44 +65,19 @@ def graph_creation(base_file, enc_demo, sim_threshold = 1, graph_header = 'graph
             'Physical Medicine and Rehabilitation Evaluations', 'Diagnostic Ultrasound Procedures', 'Dialysis Services and Procedures',
             'Special Otorhinolaryngologic Services and Procedures'])
 
-    icd = np.array(['SUPPLEMENTARY CLASSIFICATION OF FACTORS INFLUENCING HEALTH STATUS AND CONTACT WITH HEALTH SERVICES', 'OTHER METABOLIC AND IMMUNITY DISORDERS',
-    'OTHER DISEASES OF RESPIRATORY SYSTEM', 'OTHER FORMS OF HEART DISEASE', 'NEPHRITIS, NEPHROTIC SYNDROME, AND NEPHROSIS', 'HYPERTENSIVE DISEASE', 'DISEASES OF OTHER ENDOCRINE GLANDS',
-    'NONSPECIFIC ABNORMAL FINDINGS', 'NEOPLASMS', 'Symptoms involving respiratory system and other chest symptoms', 'General symptoms', 'LUNG DISEASES DUE TO EXTERNAL AGENTS', 
-    'NEUROTIC DISORDERS, PERSONALITY DISORDERS, AND OTHER NONPSYCHOTIC MENTAL DISORDERS', 'Other and unspecified anemias', 'Symptoms involving digestive system', 
-    'ARTHROPATHIES AND RELATED DISORDERS', 'OTHER DISORDERS OF THE CENTRAL NERVOUS SYSTEM', 'ISCHEMIC HEART DISEASE', 'OTHER DISEASES OF URINARY SYSTEM', 
-    'Symptoms involving cardiovascular system', 'CHRONIC OBSTRUCTIVE PULMONARY DISEASE AND ALLIED CONDITIONS', 'DISEASES OF VEINS AND LYMPHATICS, AND OTHER DISEASES OF CIRCULATORY SYSTEM','MYCOSES', 
-    'OTHER DISEASES OF DIGESTIVE SYSTEM', 'DISEASES OF ESOPHAGUS, STOMACH, AND DUODENUM', 'Other symptoms involving abdomen and pelvis', 'DORSOPATHIES', 'CEREBROVASCULAR DISEASE', 'PSYCHOSES'])
-
-# cpt = np.array(['Non-Face-to-Face Evaluation and Management Services',
-#        'Drug Assay Procedures', 'Organ or Disease Oriented Panels',
-#        'Diagnostic Radiology (Diagnostic Imaging) Procedures',
-#        'Chemistry Procedures', 'Cardiovascular Procedures',
-#        'Microbiology Procedures',
-#        'Physical Medicine and Rehabilitation Evaluations',
-#        'Hematology and Coagulation Procedures',
-#        'Transfusion Medicine Procedures',
-#        'Surgical Procedures on the Hemic and Lymphatic Systems',
-#        'Pulmonary Procedures', 'Diagnostic Ultrasound Procedures',
-#        'Qualifying Circumstances for Anesthesia',
-#        'Non-Invasive Vascular Diagnostic Studies',
-#        'Surgical Procedures on the Cardiovascular System',
-#        'Anesthesia for Procedures on the Neck',
-#        'Special Otorhinolaryngologic Services and Procedures',
-#        'Surgical Procedures on the Urinary System', 'Radiologic Guidance',
-#        'Surgical Pathology Procedures', 'Cytopathology Procedures'])
     
 
-#     icd = np.array(['K55-K64', 'I30-I52', 'E70-E88', 'A00-A09', 'D70-D77', 'D60-D64',
-#         'T36-T50', 'K00-K14', 'B95-B97', 'A30-A49', 'T80-T88', 'G40-G47',
-#         'G89-G99', 'J40-J47', 'I95-I99', 'J09-J18', 'N17-N19', 'N40-N53',
-#         'C43-C44', 'C81-C96', 'N30-N39', 'N10-N16', 'I10-I16', 'I20-I25',
-#         'L80-L99', 'D65-D69', 'J96-J99', 'I80-I89', 'M05-M14', 'A90-A99',
-#         'I26-I28', 'M20-M25', 'J90-J94', 'K20-K31', 'E50-E64', 'M60-M63',
-#         'F40-F48', 'F30-F39', 'N80-N98', 'E40-E46', 'L20-L30', 'I60-I69',
-#         'J30-J39', 'E65-E68', 'B35-B49', 'G35-G37', 'K50-K52', 'E08-E13',
-#         'J95-J95', 'J80-J84', 'J00-J06', 'K90-K95', 'D37-D48', 'K80-K87',
-#         'I05-I09', 'F01-F09', 'I70-I79', 'E00-E07', 'K70-K77', 'D80-D89',
-#         'H49-H52', 'B25-B34'])
+    icd = np.array(['K55-K64', 'I30-I52', 'E70-E88', 'A00-A09', 'D70-D77', 'D60-D64',
+        'T36-T50', 'K00-K14', 'B95-B97', 'A30-A49', 'T80-T88', 'G40-G47',
+        'G89-G99', 'J40-J47', 'I95-I99', 'J09-J18', 'N17-N19', 'N40-N53',
+        'C43-C44', 'C81-C96', 'N30-N39', 'N10-N16', 'I10-I16', 'I20-I25',
+        'L80-L99', 'D65-D69', 'J96-J99', 'I80-I89', 'M05-M14', 'A90-A99',
+        'I26-I28', 'M20-M25', 'J90-J94', 'K20-K31', 'E50-E64', 'M60-M63',
+        'F40-F48', 'F30-F39', 'N80-N98', 'E40-E46', 'L20-L30', 'I60-I69',
+        'J30-J39', 'E65-E68', 'B35-B49', 'G35-G37', 'K50-K52', 'E08-E13',
+        'J95-J95', 'J80-J84', 'J00-J06', 'K90-K95', 'D37-D48', 'K80-K87',
+        'I05-I09', 'F01-F09', 'I70-I79', 'E00-E07', 'K70-K77', 'D80-D89',
+        'H49-H52', 'B25-B34'])
     
     xray = np.array(['img_'+str(i) for i in range(1024)])
 
@@ -130,9 +105,9 @@ def graph_creation(base_file, enc_demo, sim_threshold = 1, graph_header = 'graph
     x_icd_test = dfkey.loc[dfkey.split=='test'][icd].to_numpy().astype('float32')
     x_icd_val = dfkey.loc[dfkey.split=='val'][icd].to_numpy().astype('float32')
 
-    x_demo_train = demo_enc.transform(dfkey.loc[dfkey.split=='train'][demo].to_numpy()).astype('float32').todense()
-    x_demo_test = demo_enc.transform(dfkey.loc[dfkey.split=='test'][demo].to_numpy()).astype('float32').todense()
-    x_demo_val = demo_enc.transform(dfkey.loc[dfkey.split=='val'][demo].to_numpy()).astype('float32').todense()
+    x_demo_train = enc_demo.transform(dfkey.loc[dfkey.split=='train'][demo].to_numpy()).astype('float32').todense()
+    x_demo_test = enc_demo.transform(dfkey.loc[dfkey.split=='test'][demo].to_numpy()).astype('float32').todense()
+    x_demo_val = enc_demo.transform(dfkey.loc[dfkey.split=='val'][demo].to_numpy()).astype('float32').todense()
     
     mask_train = [True for i in range(len(dfkey.loc[dfkey.split=='train']))] + [False for i in range(len(dfkey.loc[dfkey.split=='val']))] + [False for i in range(len(dfkey.loc[dfkey.split=='test']))]
     mask_val = [False for i in range(len(dfkey.loc[dfkey.split=='train']))] + [True for i in range(len(dfkey.loc[dfkey.split=='val']))] + [False for i in range(len(dfkey.loc[dfkey.split=='test']))]
@@ -159,13 +134,13 @@ def graph_creation(base_file, enc_demo, sim_threshold = 1, graph_header = 'graph
     mat_nodes = np.concatenate((features_set(n)[0], features_set(n)[1], features_set(n)[2]), axis = 0)
     if len(node_features)>1:
         for n in node_features[1:]:
-            mat_nodes = np.concatenate((mat_nodes, np.concatenate((features_set(n)[0], features_set(n)[1], features_set(n)[2]), axis = 0), axis=1)
+            mat_nodes = np.concatenate(mat_nodes, np.concatenate((features_set(n)[0], features_set(n)[1], features_set(n)[2]), axis = 0), axis=1)
         
-    n = edhe_features[0]
+    n = edge_features[0]
     mat_edges = np.concatenate((features_set(n)[0], features_set(n)[1], features_set(n)[2]), axis = 0)
     if len(edge_features)>1:
         for n in edge_features[1:]:
-            mat_edges = np.concatenate((mat_edges, np.concatenate((features_set(n)[0], features_set(n)[1], features_set(n)[2]), axis = 0), axis=1)
+            mat_edges = np.concatenate(mat_edges, np.concatenate((features_set(n)[0], features_set(n)[1], features_set(n)[2]), axis = 0), axis=1)
             
             
     print('Characteristics matrix formed', mat_nodes.shape, mat_edges.shape)

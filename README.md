@@ -29,3 +29,13 @@ Use appropriate label indicator (discharge_in_3days/admitted_to_ICU_in_3days/exp
 python3 code/apply_GNN.py --do_train true --graph_name graph_threshold_0.9_discharged_in_3days_xray_cpt.gml
 ```
 Use appropriate label indicator (discharge_in_3days/admitted_to_ICU_in_3days/expired_in_3days)
+
+
+## Data
+The model is designed for a cohort with following characteristics
+
+- patients with positive RT-PCR test for COVID-19
+- patients admitted to the hospital
+- patients undergoing regular chest x-ray examination (within 3 day intervals) 
+
+The cohort file expects one chest X-ray per row. The model predicts a label for each chest X-ray. Essentially, predictions are made for a patient whenever they undergo a chest X-ray exam, thus building a predicitve trajectory.

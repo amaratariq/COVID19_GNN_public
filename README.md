@@ -1,6 +1,10 @@
 # COVID19_GNN
  GNN model for COVID19 Disease Trajectory Prediction
 
+
+![](covid19_trajectory.jpg)
+*Branched predictive framework for clinical event prediction for COVID-19 patients
+
 ## requirements
 
 Place cohort file in data/raw

@@ -3,7 +3,7 @@
 
 
 ![](covid19_trajectory.jpg)
-*Branched predictive framework for clinical event prediction for COVID-19 patients
+* Branched predictive framework for clinical event prediction for COVID-19 patients
 
 ## requirements
 
